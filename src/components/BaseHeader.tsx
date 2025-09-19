@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 
 import { HeaderCartCounter, Sidebar } from "@/components";
 import { Menu, X } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import logo from "public/icons/servisex-logo-header.png";
-import checkmark from "public/images/checkmark_slow.gif";
+
+// import logo from "public/icons/servisex-logo-header.png";
+// import checkmark from "public/images/checkmark_slow.gif";
 
 const BaseHeader = () => {
   const environment = process.env.NEXT_PUBLIC_ENVIRONMENT;
@@ -87,8 +87,15 @@ const DesktopHeaderNavigation: React.FC<DesktopHeaderNavigationProps> = ({ class
   return (
     <div className="flex items-center justify-between h-16">
       <Link href="/" className="h-full flex items-center">
-        <Image src={logo} alt="Servisex small logo" className="hidden h-1/2 w-auto object-contain sm:flex" />
-        <Image src={checkmark} alt="spinning blue checkmark" className="h-full w-auto object-contain" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/icons/servisex-logo-header.png"
+          alt="Servisex small logo"
+          className="hidden h-1/2 w-auto object-contain sm:flex"
+        />
+
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/checkmark_slow.gif" alt="spinning blue checkmark" className="h-full w-auto object-contain" />
       </Link>
       <nav className={className}>
         <Link href="/" className="hover:cursor-pointer uppercase hover:underline hover:text-primary">

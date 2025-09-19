@@ -16,15 +16,8 @@ export const Gallery = ({ className, imageUrls, productName }: Props) => {
   return (
     <section aria-label="Image Gallery" className={classList}>
       {imageUrls.map((url) => (
-        <Image
-          width={1}
-          height={1}
-          layout="responsive"
-          key={url}
-          src={url}
-          className="w-full aspect-[1/1] object-cover"
-          alt={`${productName} + preview`}
-        />
+        //  eslint-disable-next-line @next/next/no-img-element
+        <img key={url} src={url} alt={`${productName} + preview`} className="w-full aspect-[1/1] object-cover" />
       ))}
     </section>
   );

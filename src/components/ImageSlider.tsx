@@ -73,12 +73,12 @@ const ImageSlider = ({ urls, className }: ImageSliderProps) => {
       >
         {urls.map((url, i) => (
           <SwiperSlide key={i} className="-z-10 relative h-full w-full">
-            <Image
-              fill
-              loading="eager"
-              className="-z-10 h-full w-full object-cover object-center"
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={url}
               alt="Product image"
+              loading="eager"
+              className="-z-10 h-full w-full object-cover object-center absolute inset-0"
             />
           </SwiperSlide>
         ))}
