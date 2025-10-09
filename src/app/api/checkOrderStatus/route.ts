@@ -2,8 +2,6 @@ import { retailCrm } from "@/lib/server/config";
 import { GetOrdersResponse } from "@/types";
 import { NextResponse } from "next/server";
 
-const API_ENDPOINT_ORDERS = "https://goshamartynovich.retailcrm.ru/api/v5/orders";
-
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
@@ -16,16 +14,25 @@ export async function GET(request: Request) {
   }
 
   try {
-    const response = await fetch(`${retailCrm.endpoints.orders}?apiKey=${retailCrm.apiKey}&filter[ids][]=${orderId}`);
+    const url = new URL(`${retailCrm.endpoints.orders}`);
+    url.searchParams.set("apiKey", retailCrm.apiKey);
+    url.searchParams.append("filter[ids][]", orderId);
+
+    const response = await fetch(url.toString(), { cache: "no-store" });
+
+    if (!response.ok) {
+      return NextResponse.json({ error: "Upstream request failed" }, { status: 502, headers: createCorsHeaders() });
+    }
+
     const data: GetOrdersResponse = await response.json();
 
-    if (!data.success || !data.orders || data.orders.length === 0) {
+    const firstOrder = data.orders?.at(0);
+
+    if (!data.success || !firstOrder) {
       return NextResponse.json({ error: "Order not found" }, { status: 404, headers: createCorsHeaders() });
     }
 
-    const orderStatus = data.orders[0].status;
-
-    return NextResponse.json({ status: orderStatus }, { headers: createCorsHeaders() });
+    return NextResponse.json({ status: firstOrder.status }, { headers: createCorsHeaders() });
   } catch (error) {
     console.error("Error fetching order status:", error);
     return NextResponse.json({ error: "Failed fetching order status" }, { status: 500, headers: createCorsHeaders() });

@@ -24,6 +24,7 @@ export const CartProductCard: React.FC<CartProductCardProps> = ({ product, prepa
   const [currentOffer, setCurrentOffer] = useState<PossibleOffer | undefined>(undefined);
   const maxAvailableQuantity = currentOffer?.availableQuantity || Infinity;
   const quantity = product.quantity;
+  const firstImage = product.images?.[0];
 
   const handleRemoveProduct = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -34,13 +35,15 @@ export const CartProductCard: React.FC<CartProductCardProps> = ({ product, prepa
     queryKey: [product.parentProductId],
     queryFn: () => fetch(`/api/getProductsByIds?ids=${product.parentProductId}`).then((res) => res.json()),
     select: (data) => {
-      const rawProduct = data.products[0];
+      const rawProduct = data.products?.[0];
+
+      if (!rawProduct) {
+        throw new Error("Product not found");
+      }
+
       const dynamicProduct = transformSingleProductData(rawProduct);
       const dynamicPossibleOffers = findAllPossibleOffersOfAProduct(rawProduct);
-      return {
-        dynamicProduct,
-        dynamicPossibleOffers,
-      };
+      return { dynamicProduct, dynamicPossibleOffers };
     },
   });
 
@@ -95,6 +98,7 @@ export const CartProductCard: React.FC<CartProductCardProps> = ({ product, prepa
   if (isLoading || !currentOffer) {
     return <CartProductCardSkeleton />;
   }
+
   return (
     <CardContent className="p-0 py-2 sm:p-4">
       <div className="grid gap-2 cursor-pointer">
@@ -105,13 +109,17 @@ export const CartProductCard: React.FC<CartProductCardProps> = ({ product, prepa
           </Button>
         </div>
         <div className="grid grid-cols-[64px_1fr_auto] items-center gap-4">
-          <Image
-            src={product.images[0]}
-            alt="Product template"
-            width={64}
-            height={64}
-            className="object-cover aspect-square"
-          />
+          {firstImage ? (
+            <Image
+              src={firstImage}
+              alt="Product template"
+              width={64}
+              height={64}
+              className="object-cover aspect-square"
+            />
+          ) : (
+            <Skeleton className="w-16 h-16 bg-muted" aria-hidden />
+          )}
           <div>
             <p className=" text-xs lg:text-sm text-muted-foreground ">
               Цвет: {product.properties?.color ? <>{product.properties?.color} </> : <>Один цвет</>}

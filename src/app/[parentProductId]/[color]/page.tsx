@@ -21,7 +21,7 @@ const fetchProducts = async (): Promise<ShopItem[]> => {
   return transformedProducts;
 };
 
-const fetchSingleProduct = async (parentProductId: string, color?: string): Promise<Product> => {
+const fetchSingleProduct = async (parentProductId: string, _color?: string): Promise<Product> => {
   const response = await fetch(
     `${retailCrm.endpoints.products}?apiKey=${retailCrm.apiKey}&filter[ids][]=${parentProductId}`,
     { cache: "force-cache" },
@@ -32,7 +32,11 @@ const fetchSingleProduct = async (parentProductId: string, color?: string): Prom
   }
 
   const data: GetProductsResponse = await response.json();
-  const product = data.products[0]; // sinse we are expecting single product
+  const product = data.products.at(0);
+
+  if (!product) {
+    throw new Error(`[Product] Not found for id=${parentProductId}`);
+  }
 
   return product;
 };

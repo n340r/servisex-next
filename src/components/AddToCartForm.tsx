@@ -54,6 +54,11 @@ const AddToCartForm = ({ product, color }: Props) => {
     queryFn: () => fetch(`/api/getProductsByIds?ids=${product.parentProductId}`).then((res) => res.json()),
     select: (data) => {
       const rawProduct = data.products[0];
+
+      if (!rawProduct) {
+        throw new Error("Product not found");
+      }
+
       const dynamicProduct = transformSingleProductData(rawProduct);
       const dynamicPossibleOffers = findAllPossibleOffersOfAProduct(rawProduct);
       return {
@@ -67,8 +72,7 @@ const AddToCartForm = ({ product, color }: Props) => {
   const dynamicPossibleOffers = data?.dynamicPossibleOffers;
   const itemAlreadyInCart = dynamicPossibleOffers && items.some((item) => item.id === currentOffer?.id);
   const isOneSize = !dynamicProduct?.sizes.length;
-  const initialSize =
-    dynamicPossibleOffers && dynamicPossibleOffers?.find((offer) => !offer.isOutOfStock)?.properties.size;
+  const initialSize = dynamicPossibleOffers?.find((offer) => !offer.isOutOfStock)?.properties.size;
 
   const handleToast = (product: PossibleOffer) => {
     toast("ТОВАР ДОБАВЛЕН В КОРЗИНУ", {
@@ -155,7 +159,7 @@ const AddToCartForm = ({ product, color }: Props) => {
 
   if (error) return "An error has occurred: " + (error as Error).message;
 
-  if (isLoading || !initialSize) {
+  if (isLoading || !data || !initialSize) {
     return (
       <div className="grid gap-4 mt-4 pointer-events-none">
         <div className="flex flex-col items-center gap-4 w-full">

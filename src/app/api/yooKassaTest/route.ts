@@ -67,6 +67,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const currency = notification.object.amount.currency;
 
       const orderProducts = order?.items;
+      if (!orderProducts || orderProducts.length === 0) {
+        return NextResponse.json({ error: "No products found in order" }, { status: 400 });
+      }
       const offersInCreatedOrder = orderProducts.map((product) => product.offer.id);
 
       console.log("[1.1] Processing... Offers in order:", offersInCreatedOrder);
@@ -119,15 +122,21 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const orderProductsData: GetOrdersResponse = await ordersResponse.json();
       const order = orderProductsData.orders[0];
 
-      const deliveryPrice = order.delivery.cost;
-      const customerComment = order.customerComment;
-      const productsPrice = order.summ;
-      const firstName = order.firstName;
-      const lastName = order.lastName;
-      const phone = order.phone;
-      const email = order.email;
-      const address = order.delivery.address.text;
-      const delivery = order.delivery.code || "";
+      if (!order) {
+        return NextResponse.json({ error: "Order not found" }, { status: 404 });
+      }
+
+      const deliveryPrice = order.delivery?.cost ?? 0;
+      const customerComment = order.customerComment ?? "";
+      const productsPrice = order.summ ?? 0;
+
+      const firstName = order.firstName ?? "";
+      const lastName = order.lastName ?? "";
+      const phone = order.phone ?? "";
+      const email = order.email ?? "";
+
+      const address = order.delivery?.address?.text ?? "";
+      const delivery = order.delivery?.code ?? "";
 
       console.log("[2.1] Capturing paymenet");
 

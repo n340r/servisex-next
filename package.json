@@ -15,7 +15,8 @@
     "format:check": "prettier --check '.'",
     "check": "pnpm run lint && pnpm run format:check",
     "tree": "tree -a -I '.github|.husky|.next|.git|node_modules' -L 3",
-    "tree:full": "tree -a -I '.github|.husky|.next|.git|node_modules'"
+    "tree:full": "tree -a -I '.github|.husky|.next|.git|node_modules'",
+    "typecheck": "tsc --noEmit"
   },
   "packageManager": "pnpm@9.9.0+sha256.7a4261e50d9a44d9240baf6c9d6e10089dcf0a79d0007f2a26985a6927324177",
   "dependencies": {
