@@ -75,8 +75,8 @@ export async function POST(request: Request) {
 }
 
 async function getAuthToken() {
-  const CDEK_LOGIN = process.env.NEXT_PUBLIC_CDEK_ACCOUNT_IDENTIFIER;
-  const CDEK_SECRET = process.env.NEXT_PUBLIC_CDEK_SECRET;
+  const CDEK_LOGIN = process.env.CDEK_ACCOUNT_IDENTIFIER;
+  const CDEK_SECRET = process.env.CDEK_SECRET;
 
   const response = await fetch(`${baseUrl}/oauth/token`, {
     method: "POST",
