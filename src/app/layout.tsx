@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { Providers } from "@/providers";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 
 import favicon from "./favicon.ico";
 import "./globals.css";
@@ -19,7 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={cn("antialiased", inter.className)}>
-        <Providers>{children}</Providers>
+        {/* <Providers>{children}</Providers> */}
+        <StayTunedPlaceholder />
       </body>
     </html>
   );
@@ -28,13 +30,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 const StayTunedPlaceholder: React.FC = () => {
   return (
     <html lang="en" className="w-full h-full">
-      <body className={cn("antialiased  w-full h-full flex justify-center items-center", inter.className)}>
-        <div>
+      <body className={cn("antialiased", inter.className)}>
+        <div className="w-screen h-screen  flex flex-col justify-center items-center">
           <h1 className="text-3xl font-bold text-center mb-6">
-            SERVISEX<sup>tm</sup> will open August 2025.
-            <br />
-            Stay tuned.
+            SERVISEX<sup>tm</sup> website is suspended.
           </h1>
+
+          <p className="text-center mb-6">
+            Contact{` `}
+            <Link
+              href="https://www.instagram.com/servisex.eu/"
+              target="_blank"
+              className=" hover:cursor-pointer hover:underline hover:text-primary"
+            >
+              servisex Inst.
+            </Link>
+            {` `}
+            to order
+          </p>
           <LoadingServisex />
         </div>
       </body>
