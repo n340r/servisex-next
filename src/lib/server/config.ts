@@ -1,8 +1,9 @@
 import "server-only";
 
-type Mode = "prod" | "dev";
+type Mode = "production" | "development";
 
-const mode: Mode = (process.env.RETAILCRM_ENV as Mode) ?? (process.env.NODE_ENV === "production" ? "prod" : "dev");
+const mode: Mode =
+  (process.env.RETAILCRM_ENV as Mode) ?? (process.env.NODE_ENV === "production" ? "production" : "development");
 
 function req(name: string) {
   const v = process.env[name];
@@ -13,8 +14,8 @@ function req(name: string) {
 const prodBase = process.env.RETAILCRM_PROD_BASE_URL ?? "https://goshamartynovich.retailcrm.ru";
 const devBase = process.env.RETAILCRM_TEST_BASE_URL ?? "https://servisex-dev-vercel.retailcrm.ru";
 
-const baseUrl = mode === "prod" ? prodBase : devBase;
-const apiKey = mode === "prod" ? req("RETAILCRM_API_KEY") : req("RETAILCRM_TEST_API_KEY");
+const baseUrl = mode === "production" ? prodBase : devBase;
+const apiKey = mode === "production" ? req("RETAILCRM_API_KEY") : req("RETAILCRM_TEST_API_KEY");
 
 export const retailCrm = {
   mode,

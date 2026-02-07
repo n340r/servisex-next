@@ -2,8 +2,6 @@ import type { YookassaCreatePaymentResponse } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
-const API_ENDPOINT = "https://api.yookassa.ru/v3/payments";
-
 export async function POST(req: NextRequest) {
   try {
     const { value, description, metadata } = await req.json();
@@ -57,7 +55,7 @@ export async function POST(req: NextRequest) {
       },
     };
 
-    const response = await fetch(API_ENDPOINT, {
+    const response = await fetch(`${process.env.YOOKASSA_API_URL}/payments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

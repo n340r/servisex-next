@@ -5,7 +5,6 @@ import { transformAllProductsData } from "@/lib/utils";
 import { GetProductsResponse, ShopItem } from "@/types";
 
 const fetchProducts = async (): Promise<ShopItem[]> => {
-  const API_ENDPOINT = "https://goshamartynovich.retailcrm.ru/api/v5/store/products";
   const response = await fetch(`${retailCrm.endpoints.products}?apiKey=${retailCrm.apiKey}`, {
     cache: "force-cache",
   });

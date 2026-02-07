@@ -11,7 +11,7 @@ import Link from "next/link";
 
 const BaseHeader = () => {
   const environment = process.env.NEXT_PUBLIC_ENVIRONMENT;
-  const isDevEnvironment = environment === "dev";
+  const isDevEnvironment = environment === "development";
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleSidebarClose = () => {

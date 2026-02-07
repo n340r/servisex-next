@@ -2,8 +2,6 @@ import { retailCrm } from "@/lib/server/config";
 import { GetOrdersResponse } from "@/types";
 import { NextResponse } from "next/server";
 
-const API_ENDPOINT_ORDERS = "https://goshamartynovich.retailcrm.ru/api/v5/orders";
-
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 

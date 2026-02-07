@@ -244,14 +244,14 @@ export const sendOrderDetailsToTelegram = async (
   }
 };
 
-export type AppEnvironment = "dev" | "prod";
+export type AppEnvironment = "development" | "production";
 
 export const getEnvironment = (): AppEnvironment => {
   const env = process.env.NEXT_PUBLIC_ENVIRONMENT?.toLowerCase();
-  return env === "dev" ? "dev" : "prod";
+  return env === "development" ? "development" : "production";
 };
 
-export const isDevEnvironment = () => getEnvironment() === "dev";
+export const isDevEnvironment = () => getEnvironment() === "development";
 
 export const getCreatePaymentApiPath = (): "/api/createTestPayment" | "/api/createPayment" =>
   isDevEnvironment() ? "/api/createTestPayment" : "/api/createPayment";
@@ -279,7 +279,8 @@ export const getTelegramChatId = (): string => {
 
   const prodId = process.env.NEXT_PUBLIC_TG_ORDERS_CHAT_ID;
   const devId = process.env.NEXT_PUBLIC_TG_TEST_ORDERS_CHAT_ID;
-  const id = env === "dev" ? devId : prodId;
+  const id = env === "development" ? devId : prodId;
+  console.log("sending to chat:", id);
 
   if (!id) throw new Error(`Missing Telegram chat id for env ${env}`);
 

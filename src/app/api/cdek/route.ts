@@ -1,7 +1,6 @@
-// app/api/cdek/route.js
 import { NextResponse } from "next/server";
 
-const baseUrl = "https://api.cdek.ru/v2";
+const baseUrl = process.env.CDEK_API_URL ?? "https://api.cdek.ru/v2";
 
 export async function GET(request: Request) {
   try {

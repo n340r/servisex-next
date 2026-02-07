@@ -198,7 +198,7 @@ async function cancelPayment(paymentId: string) {
   const secretKey = yookassa.prod.key;
   const shopId = yookassa.prod.shopId;
 
-  const response = await fetch(`https://api.yookassa.ru/v3/payments/${paymentId}/cancel`, {
+  const response = await fetch(`${process.env.YOOKASSA_API_URL}/payments/${paymentId}/cancel`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString("base64")}`,
@@ -223,7 +223,7 @@ async function capturePayment(body: YookassaCapturePaymentBody, paymentId: strin
 
   const requestBody = body;
 
-  const response = await fetch(`https://api.yookassa.ru/v3/payments/${paymentId}/capture`, {
+  const response = await fetch(`${process.env.YOOKASSA_API_URL}/payments/${paymentId}/capture`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString("base64")}`,

@@ -20,8 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={cn("antialiased", inter.className)}>
-        {/* <Providers>{children}</Providers> */}
-        <StayTunedPlaceholder />
+        <Providers>{children}</Providers>
+        {/* <StayTunedPlaceholder /> */}
       </body>
     </html>
   );
