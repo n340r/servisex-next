@@ -1,6 +1,5 @@
 import { LoadingServisex } from "@/components";
 import { cn } from "@/lib/utils";
-import { Providers } from "@/providers";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
@@ -20,8 +19,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={cn("antialiased", inter.className)}>
-        <Providers>{children}</Providers>
-        {/* <StayTunedPlaceholder /> */}
+        {/* <Providers>{children}</Providers> */}
+        <StayTunedPlaceholder />
       </body>
     </html>
   );
